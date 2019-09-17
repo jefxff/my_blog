@@ -1,0 +1,55 @@
+{% load blog_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="shortcut icon" href="{% static "image/李子1.ico" %}" type="image/x-icon">
+	 <!-- <link href="{% static "css/marxico.css" %}" rel="stylesheet"> -->
+	<link href="{% static "css/code.css" %}" rel="stylesheet">
+	<!-- <link href="{% static "css/blog.css" %}" rel="stylesheet"> -->
+
+ 	<!-- 引入bootstrap的css文件 -->
+ 	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+</head>
+
+<body>
+
+    {% include 'header.html' %}	
+
+ 	<div id="wrapper">
+        {% block content %}{% endblock content %}
+        <div id="push"></div>
+    </div>
+    <!-- 引入注脚 -->
+    {% include 'footer.html' %}
+
+	
+	<!-- bootstrap.js 依赖 jquery.js 和popper.js，因此在这里引入 -->
+    <script src="{% static 'jquery/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'popper/popper-1.14.4.js' %}"></script>    
+    <!-- 引入bootstrap的js文件 -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    {% include 'back_to_top_func.html' %}
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #wrapper {
+            min-height: 100%;
+            margin-bottom: -60px;
+        }
+
+        #footer,
+        #push {
+            height: 60px;
+        }
+    </style>
+
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+{% load static %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+      <div class="col-9">
+        <!-- 标题及作者 -->
+        <h1 class="mt-4 mb-4">{{ post.title }}</h1>
+        <!-- <div class="alert alert-success">Published {{ post.publish }} by {{ post.author }}</div> -->
+        <div class="alert alert-success">作者：{{ post.author }}</div>
+        <!-- 文章正文 -->
+        <div class="col-12">
+            <p>{{ post.body|markdown|safe }}</p>
+            
+            <br >
+            <hr />
+            <!-- 返回顶部按钮 -->
+            <!-- <p style="text-align:right;"><a href="#"><img src="{% static "image/顶部.png" %}" title="返回顶部"></a></p> -->
+
+            <!-- show similar posts -->
+            <h4>相似文章</h4>
+              {% for post in similar_posts %}
+              <p>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+              </p>
+              {% empty %}
+              目前还木有类似的文章哦!
+              {% endfor %}
+
+            <hr />
+
+            {% with comments.count as total_comments %}
+              <h4>
+                <!-- {{ total_comments }} comment{{ total_comments|pluralize }} -->
+                 {{ total_comments }} 条评论
+              </h4>
+            {% endwith %}
+
+            
+            <!-- show comments -->
+            {% for comment in comments %}
+              <div class="comment">
+                  <p class="info">
+                      Comment {{ forloop.counter }} by {{ comment.name }}
+                      {{ comment.created }}
+                  </p>
+                  {{ comment.body|linebreaks }}
+              </div>
+            {% empty %}
+              <p>目前还没有人评论哦!</p>
+            {% endfor %}
+            </div>
+<!--             <br /> -->
+            <hr />
+            <!-- add new commit -->
+            <div class="comment">
+              {% if new_comment %}
+                <h4>你已经评论了耶!</h4>
+              {% else %}
+                <h4>发表评论</h4>
+                <!-- <br> -->
+                <form action="." method="post">
+                {{ comment_form.as_p }}
+                {% csrf_token %}
+                <p><input type="submit" value="提交"></p>
+                </form>
+              {% endif %}
+            </div>  
+        </div>
+
+        <!-- 目录 -->
+        <div class="col-3 mt-4" id="sidebar" class="sidebar">
+            <div class="sidebar__inner">
+              <h4><strong>目录</strong></h4>
+              <hr>
+              <div>
+                  {{ toc|safe }}
+              </div>
+            </div>  
+        </div>    
+    </div>
+</div>
+
+<style>
+    .sidebar{
+        will-change: min-height;
+    }
+
+    .sidebar__inner{
+        transform: translate(0, 0);
+        transform: translate3d(0, 0, 0);
+        will-change: position, transform;
+    }
+</style>
+
+
+<style type="text/css">
+
+label{display:inline;float:left;width:100px;}
+input,textarea{width:100%;}
+textarea{height:80px;}
+input[type=submit]{width:120px;margin-left:300px;}
+</style>
+
+ 
+{% endblock content %}
+
+
+{% block script %}
+<script src="{% static 'sticky_sidebar/jquery.sticky-sidebar.min.js' %}"></script>
+<script type="text/javascript">
+    $('#sidebar').stickySidebar({
+        topSpacing: 20,
+        bottomSpacing: 20,
+    });
+</script>
+
+{% endblock script %}

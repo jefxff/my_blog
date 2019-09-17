@@ -1,0 +1,29 @@
+{% load static %}
+<!-- 定义导航栏 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+
+    <!-- 导航栏商标 -->
+    <a class="navbar-brand" href="{% url "blog:post_list" %}">Jeff's blog</a>
+
+    <!-- 导航入口 -->
+    <div>
+      <ul class="navbar-nav">
+        <!-- 条目 -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "blog:post_list" %}">首页</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" href='{% url "blog:post_feed" %}'>RSS</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "blog:post_articlelist" %}">目录</a>
+          </li>  
+        <li class="nav-item"> 
+          <a class="nav-link" href="{% url "blog:post_search" %}">搜索</a>
+         </li>        
+      </ul>
+    </div>
+
+  </div>
+</nav>
